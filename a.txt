@@ -1,0 +1,7 @@
+cd G:\springcloud-parent\registry\target
+java -jar registry-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer1
+java -jar registry-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer2
+
+cd G:\springcloud-parent\provider\target
+java -jar provider-0.0.1-SNAPSHOT.jar --server.port=8089
+java -jar provider-0.0.1-SNAPSHOT.jar --server.port=8088

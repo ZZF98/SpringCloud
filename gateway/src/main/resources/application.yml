@@ -1,0 +1,41 @@
+server:
+  port: 8888
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1110/eureka/
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          #启用DiscoveryClient网关集成的标志
+          enabled: true
+          #配置路由规则
+      routes:
+      #配置自定义路由id
+      - id: CONSUMER_ONE
+      #采用LoadBalanceClient方式请求
+        uri: lb://consumer
+        predicates:
+        - Path=/z/gateway/**
+        filters:
+        - StripPrefix=2
+  application:
+    name: gateway
+  zipkin:
+    base-url: http://localhost:10000
+    enabled: true
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+
+logging:
+  config: classpath:logback-spring.xml

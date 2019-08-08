@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration monitorInterval="5" status="WARN">
+
+    <Appenders>
+
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <!--//重点&#45;&#45;&#45;&#45;自定义sleuth参数-->
+            <PatternLayout pattern="%d [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %-5p %c:%L [%t] - %m%n" />
+        </Console>
+        <RollingFile name="RollingFile" fileName="/mycloud/logs/provider/app.log"
+                     filePattern="/mycloud/logs/provider/$${date:yyyy-MM}/provider-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %-5p %c:%L [%t] - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="250 MB" />
+            </Policies>
+        </RollingFile>
+        <!-- SYSTME_OUT是log4j2里面定义的一个常量值,表示标准输出 -->
+        <Console name="StandOut" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />   <!--指定了日志的布局输出格式，详细占位符的意义见下文 -->
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.opensymphony.xwork2.ognl.OgnlValueStack" level="ERROR" />
+        <Logger name="open.template" level="DEBUG" />
+        <Logger name="org.springframework.cloud.netflix" level="DEBUG" />
+        <Logger name="com.alisoft.xplatform.asf" level="WARN" />
+        <Logger name="com.mbi" level="ERROR" />
+        <Logger name="net.mlw" level="INFO" />
+        <Logger name="java.sql" level="INFO" />
+        <Logger name="org.hibernate.type" level="ERROR" />
+        <Logger name="com.opensymphony.webwork" level="ERROR" />
+        <Logger name="org.apache" level="INFO" />
+        <Logger name="org.jgroups" level="WARN" />
+        <Logger name="org.jboss.axis" level="INFO" />
+        <Logger name="org.jboss.management" level="INFO" />
+        <Logger name="org.apache.commons.httpclient" level="ERROR" />
+        <Logger name="com.alibaba.dubbo" level="WARN" />
+        <Logger name="com.mchange.v2.resourcepool" level="ERROR" />
+        <Logger name="org.mybatis.spring" level="ERROR" />
+        <Logger name="org.apache.ibatis" level="ERROR" />
+        <Logger name="com.netflix.discovery" level="INFO" />
+        <Logger name="com.netflix.loadbalancer.BaseLoadBalancer" level="INFO" />
+
+        <logger name="org.springcloud.zzf" level="DEBUG" additivity="false">
+            <appender-ref ref="RollingFile" />
+            <appender-ref ref="StandOut"/>
+        </logger>
+
+        <root level="DEBUG">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="RollingFile" />
+            <!--<appender-ref ref="StandOut"/>-->
+        </root>
+        <!--<Root level="INFO">&lt;!&ndash; 缺省日志级别，如果package有定制级别，则按package的定制级别走，即使package级别更低 &ndash;&gt;-->
+            <!--<AppenderRef ref="STDOUT" />-->
+            <!--&lt;!&ndash;<appender-ref ref="RollingFile" />&ndash;&gt;-->
+            <!--&lt;!&ndash;<appender-ref ref="StandOut"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<AppenderRef ref="FileAppender" />&ndash;&gt;-->
+            <!--&lt;!&ndash;<AppenderRef ref="RollingFileInfo" />&ndash;&gt;-->
+        <!--</Root>-->
+
+    </Loggers>
+</configuration>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration monitorInterval="5" status="WARN">
+
+    <Appenders>
+        <RollingFile name="RollingFile" fileName="/mycloud/logs/registry/app.log"
+                     filePattern="/mycloud/logs/registry/$${date:yyyy-MM}/registry-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="250 MB" />
+            </Policies>
+        </RollingFile>
+        <!-- SYSTME_OUT是log4j2里面定义的一个常量值,表示标准输出 -->
+        <Console name="StandOut" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />   <!--指定了日志的布局输出格式，详细占位符的意义见下文 -->
+        </Console>
+    </Appenders>
+    <loggers>
+        <!--日志器的定义 -->
+        <root level="DEBUG">
+            <appender-ref ref="RollingFile" />
+            <appender-ref ref="StandOut"/>
+        </root>
+        <logger name="org.springcloud.zzf" level="DEBUG" additivity="false">
+            <appender-ref ref="RollingFile" />
+            <appender-ref ref="StandOut"/>
+        </logger>
+    </loggers>
+</configuration>
