@@ -18,7 +18,7 @@
 
 #### 安装教程
 
-1. 在根目录直接mvn clean install
+1. 在根目录直接mvn clean install -Dmaven.test.skip=true
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0314/212044_8d23278a_2010234.png "屏幕截图.png")
 2. 首先启动RegistryApplication做服务注册中心
 3. 启动服务提供者ProviderApplication（数据库文件在根目录下）
